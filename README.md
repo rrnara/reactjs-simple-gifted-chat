@@ -1,1 +1,65 @@
-# reactjs-simple-gifted-chat
+# Simple Gifted Chat
+
+Simple version of chat built to use same APIs as https://github.com/FaridSafi/react-native-gifted-chat
+
+## Installation
+
+- Using [npm](https://www.npmjs.com/#getting-started): `npm install reactjs-simple-gifted-chat --save`
+- Using [Yarn](https://yarnpkg.com/): `yarn add reactjs-simple-gifted-chat`
+
+## Example
+
+```jsx
+import { ChatFeed } from 'reactjs-simple-gifted-chat';
+
+class Example extends React.Component {
+
+  state = {
+    messages: [],
+    isFetching: false
+  };
+
+  componentWillMount() {
+    this.setState({
+      messages: [
+        {
+          _id: 1,
+          content: { text: 'Hello developer' },
+          createdAt: new Date(),
+          user: {
+            _id: 30,
+            name: 'React',
+            avatar: 'https://facebook.github.io/react/img/logo_og.png',
+          },
+          displayTime: 'Today 10:00 PM'
+        },
+      ],
+    });
+  }
+
+  onSend(message) {
+    const messages = this.state.mesages.slice(0)
+    messages.splice(0, 0, { _id: 100, content: { text: message }, user: { _id: 1 }, displayTime: 'Now', createdAt: new Date() })
+    this.setState({ messages });
+  }
+
+  render() {
+    return (
+      <ChatFeed
+        messages={this.state.messages}
+        onSend={this.onSend}
+        user={{
+          _id: 1,
+          name: 'User'
+        }}
+        hasInputField
+        loadEarlier={true}
+        onLoadEarlier={() => this.onLoadEarlier()}
+        isLoadingEarlier={this.state.isFetching}
+        inverted={true}
+      />
+    );
+  }
+
+}
+```
