@@ -29,31 +29,6 @@ const styles = {
 
 // React component to render a complete chat feed
 export default class GiftedChat extends React.Component {
-  static defaultProps = {
-    inverted: true,
-    hasInputField: true,
-    loadEarlier: false,
-    isLoadingEarlier: false,
-    isTyping: false,
-    alwaysShowSend: false,
-    sendButtonText: 'SEND',
-    textInputStyle: {},
-    placeholder: 'Enter your message',
-    renderAvatarOnTop: false,
-    showAvatarForEveryMessage: false,
-    showUserAvatar: false,
-    showReceipientAvatar: true,
-    avatarSize: 50,
-    messageIdGenerator: uuidv4,
-    timezone: moment.tz.guess(),
-    timeFormat: 'LT',
-    dateFormat: 'll',
-    textStyle: {},
-    imageStyle: {},
-    timeStyle: {},
-    dateStyle: {}
-  }
-
   constructor(props) {
     super(props)
     this.handleScroll = this.handleScroll.bind(this)
@@ -216,4 +191,29 @@ export default class GiftedChat extends React.Component {
       </div>
     )
   }
+}
+
+GiftedChat.defaultProps = {
+  inverted: true,
+  hasInputField: true,
+  loadEarlier: false,
+  isLoadingEarlier: false,
+  isTyping: false,
+  alwaysShowSend: false,
+  sendButtonText: 'SEND',
+  textInputStyle: {},
+  placeholder: 'Enter your message',
+  renderAvatarOnTop: false,
+  showAvatarForEveryMessage: false,
+  showUserAvatar: false,
+  showReceipientAvatar: true,
+  avatarSize: 50,
+  messageIdGenerator: uuidv4,
+  timezone: moment.tz.guess(),
+  timeFormat: 'LT',
+  dateFormat: 'll',
+  textStyle: {},
+  imageStyle: {},
+  timeStyle: {},
+  dateStyle: {}
 }

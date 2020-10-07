@@ -162,7 +162,7 @@ export default class ChatBubble extends React.Component {
     const emptyAvatar = showAvatar ? <div style={generateEmptyAvatarStyle(avatarSize)} /> : null
     if (showAvatar) {
       const compareWith = renderAvatarOnTop ? previous : next
-      showAvatar = compareWith == null || compareWith.user._id != message.user._id
+      showAvatar = compareWith == null || compareWith.user._id !== message.user._id
     }
 
     const textStyleToUse = Object.assign({}, styles.p, textStyle)
