@@ -1,6 +1,6 @@
 {
   "name": "reactjs-simple-gifted-chat",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Simple version of gifted chat UI for Web ReactJS",
   "main": "dist/index.js",
   "scripts": {
@@ -21,8 +21,11 @@
   },
   "homepage": "https://github.com/rrnara/reactjs-simple-gifted-chat#readme",
   "dependencies": {
+    "moment-timezone": "^0.5.31",
     "react": "^15.5.4",
-    "react-linkify": "^0.2.2"
+    "react-linkify": "^0.2.2",
+    "react-textarea-autosize": "^8.2.0",
+    "uuid": "^8.3.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.11.6",

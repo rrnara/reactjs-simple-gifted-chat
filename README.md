@@ -57,9 +57,57 @@ class Example extends React.Component {
         onLoadEarlier={() => this.onLoadEarlier()}
         isLoadingEarlier={this.state.isFetching}
         inverted={true}
+        isTyping
+        alwaysShowSend
+        sendButtonText="Send"
+        placeholder="Type your message"
+        renderAvatarOnTop
+        showAvatarForEveryMessage={false}
+        showUserAvatar
+        showReceipientAvatar={false}
+        avatarSize={70}
+        messageIdGenerator={uuidv3}
+        timezone="America/Los_Angeles"
+        timeFormat="HH:mm"
+        dateFormat="YYYY/MM/DD"
+        textInputStyle={{ margin: 10 }}
+        textStyle={{ fontSize: 15 }}
+        imageStyle={{ width: 500 }}
+        timeStyle={{ fontSize: 12 }}
+        dateStyle={{ fontSize: 18 }}
       />
     );
   }
 
 }
+```
+
+## Default Properties
+Most of the properties specified have a default value as described:
+
+```jsx
+  static defaultProps = {
+    inverted: true,
+    hasInputField: true,
+    loadEarlier: false,
+    isLoadingEarlier: false,
+    isTyping: false,
+    alwaysShowSend: false,
+    sendButtonText: 'SEND',
+    textInputStyle: {},
+    placeholder: 'Enter your message',
+    renderAvatarOnTop: false,
+    showAvatarForEveryMessage: false,
+    showUserAvatar: false,
+    showReceipientAvatar: true,
+    avatarSize: 50,
+    messageIdGenerator: uuidv4,
+    timezone: moment.tz.guess(),
+    timeFormat: 'LT',
+    dateFormat: 'll',
+    textStyle: {},
+    imageStyle: {},
+    timeStyle: {},
+    dateStyle: {}
+  }
 ```
