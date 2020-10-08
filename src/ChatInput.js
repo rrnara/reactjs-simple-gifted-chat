@@ -26,6 +26,7 @@ export default class ChatInput extends React.Component {
   constructor(props) {
     super(props)
     this.onSend = this.onSend.bind(this)
+    this.onKeyUp = this.onKeyUp.bind(this)
     this.state = { message: '' }
   }
 
@@ -36,6 +37,13 @@ export default class ChatInput extends React.Component {
       onSend(messageToUse)
     }
     this.setState({ message: '' })
+  }
+
+  onKeyUp(event) {
+    if (!event.shiftKey && event.key === 'Enter') {
+      event.stopPropagation()
+      this.onSend()
+    }
   }
 
   render() {
@@ -59,6 +67,7 @@ export default class ChatInput extends React.Component {
               this.setState({ message: event.target.value })
             }
           }}
+          onKeyUp={this.onKeyUp}
           minRows={1}
           maxRows={maxRows}
           placeholder={placeholder}
