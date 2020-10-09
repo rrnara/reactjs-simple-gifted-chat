@@ -67,14 +67,18 @@ class Example extends React.Component {
         showReceipientAvatar={false}
         avatarSize={70}
         messageIdGenerator={uuidv3}
+        renderAccessory={null}
         timezone="America/Los_Angeles"
         timeFormat="HH:mm"
         dateFormat="YYYY/MM/DD"
-        textInputStyle={{ margin: 10 }}
+        maxInputLength="400"
+        textInputStyle={{ margin: 10, maxRows: 3 }}
         textStyle={{ fontSize: 15 }}
         imageStyle={{ width: 500 }}
         timeStyle={{ fontSize: 12 }}
         dateStyle={{ fontSize: 18 }}
+        sendButtonStyle={{ backgroundColor: 'blue', fontSize: 16 }}
+        sendButtonDisabledStyle={{ backgrounColor: 'gray' }}
       />
     );
   }
@@ -108,6 +112,7 @@ Most of the properties specified have a default value as described:
     textStyle: {},
     imageStyle: {},
     timeStyle: {},
-    dateStyle: {}
+    dateStyle: {},
+    sendButtonStyle: {}
   }
 ```

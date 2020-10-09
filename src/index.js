@@ -39,9 +39,15 @@ export default class GiftedChat extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.messages.length === 0 && this.props.messages.length > 0) {
+    if (this.lastMessageId(prevProps) !== this.lastMessageId(this.props)) {
       this.scrollToBottom()
     }
+  }
+
+  lastMessageId(props) {
+    const { inverted, messages } = props
+    const messagesCount = messages.length
+    return messagesCount === 0 ? null : (inverted ? messages[0] : messages[messagesCount - 1])._id
   }
 
   scrollToBottom() {
@@ -131,6 +137,9 @@ export default class GiftedChat extends React.Component {
       text,
       onInputTextChanged,
       textInputStyle,
+      sendButtonStyle,
+      sendButtonDisabledStyle,
+      maxInputLength,
       messageIdGenerator
     } = this.props
 
@@ -151,6 +160,9 @@ export default class GiftedChat extends React.Component {
         textInputStyle={textInputStyle}
         text={text}
         onInputTextChanged={onInputTextChanged}
+        sendButtonStyle={sendButtonStyle}
+        sendButtonDisabledStyle={sendButtonDisabledStyle}
+        maxInputLength={maxInputLength}
       />
     ) : null
   }
@@ -168,7 +180,7 @@ export default class GiftedChat extends React.Component {
   }
 
   render() {
-    const { isTyping, isLoadingEarlier, messages, maxHeight } = this.props
+    const { isTyping, isLoadingEarlier, messages, maxHeight, renderAccessory } = this.props
     const chatHistoryStyle = Object.assign(styles.chatHistory, { maxHeight })
     return (
       <div id="chat-panel" style={styles.chatPanel} onScroll={this.handleScroll}>
@@ -187,6 +199,7 @@ export default class GiftedChat extends React.Component {
           <div className="chat-messages">{this.renderMessages(messages)}</div>
           {isTyping && this.renderTyping()}
         </div>
+        {renderAccessory != null ? renderAccessory() : null}
         {this.renderInputField()}
       </div>
     )
@@ -215,5 +228,7 @@ GiftedChat.defaultProps = {
   textStyle: {},
   imageStyle: {},
   timeStyle: {},
-  dateStyle: {}
+  dateStyle: {},
+  sendButtonStyle: {},
+  sendButtonDisabledStyle: {}
 }

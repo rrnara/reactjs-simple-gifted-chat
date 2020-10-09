@@ -31,10 +31,12 @@ export default class ChatInput extends React.Component {
   }
 
   onSend() {
-    const { text, onSend } = this.props
+    const { text, onSend, alwaysShowSend } = this.props
     if (onSend) {
-      const messageToUse = text || this.state.message
-      onSend(messageToUse)
+      const messageToUse = (text || this.state.message).trim()
+      if (alwaysShowSend || messageToUse.length > 0) {
+        onSend(messageToUse)
+      }
     }
     this.setState({ message: '' })
   }
@@ -47,15 +49,22 @@ export default class ChatInput extends React.Component {
   }
 
   render() {
-    const { alwaysShowSend, sendButtonText, placeholder, textInputStyle, text, onInputTextChanged } = this.props;
+    const {
+      alwaysShowSend,
+      sendButtonText,
+      placeholder,
+      textInputStyle,
+      text,
+      onInputTextChanged,
+      sendButtonStyle,
+      sendButtonDisabledStyle,
+      maxInputLength
+    } = this.props;
     const { message } = this.state
     const messageToUse = text || message
-    let maxRows = 5
-    if (textInputStyle != null && textInputStyle.maxRows != null) {
-      maxRows = textInputStyle.maxRows
-      delete textInputStyle.maxRows
-    }
-    const style = Object.assign({}, textInputStyle, styles.inputStyle)
+    const inputStyle = Object.assign({}, styles.inputStyle, textInputStyle)
+    const buttonDisabled = !alwaysShowSend && messageToUse.trim().length === 0
+    const buttonStyle = Object.assign({}, styles.sendButton, sendButtonStyle, buttonDisabled ? sendButtonDisabledStyle : {})
     return (
       <div className="chat-input" style={styles.chatInput}>
         <TextareaAutosize
@@ -69,11 +78,12 @@ export default class ChatInput extends React.Component {
           }}
           onKeyUp={this.onKeyUp}
           minRows={1}
-          maxRows={maxRows}
+          maxRows={textInputStyle.maxRows || 5}
           placeholder={placeholder}
-          style={style}
+          maxLength={maxInputLength}
+          style={inputStyle}
         />
-        <button type="submit" style={styles.sendButton} onClick={this.onSend} disabled={!alwaysShowSend && messageToUse.length === 0}>
+        <button type="submit" style={buttonStyle} onClick={this.onSend} disabled={buttonDisabled}>
           {sendButtonText}
         </button>
       </div>
