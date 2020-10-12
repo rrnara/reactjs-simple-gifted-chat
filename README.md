@@ -10,7 +10,7 @@ Simple version of chat built to use same APIs as https://github.com/FaridSafi/re
 ## Example
 
 ```jsx
-import { ChatFeed } from 'reactjs-simple-gifted-chat';
+import GiftedChat from 'reactjs-simple-gifted-chat';
 
 class Example extends React.Component {
 
@@ -45,7 +45,7 @@ class Example extends React.Component {
 
   render() {
     return (
-      <ChatFeed
+      <GiftedChat
         messages={this.state.messages}
         onSend={this.onSend}
         user={{
@@ -113,6 +113,7 @@ Most of the properties specified have a default value as described:
     imageStyle: {},
     timeStyle: {},
     dateStyle: {},
-    sendButtonStyle: {}
+    sendButtonStyle: {},
+    sendButtonDisabledStyle: {}
   }
 ```
