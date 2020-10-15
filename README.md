@@ -30,8 +30,7 @@ class Example extends React.Component {
             _id: 30,
             name: 'React',
             avatar: 'https://facebook.github.io/react/img/logo_og.png',
-          },
-          displayTime: 'Today 10:00 PM'
+          }
         },
       ],
     });
@@ -79,6 +78,7 @@ class Example extends React.Component {
         dateStyle={{ fontSize: 18 }}
         sendButtonStyle={{ backgroundColor: 'blue', fontSize: 16 }}
         sendButtonDisabledStyle={{ backgrounColor: 'gray' }}
+        renderChatEmpty={() => <div>No Messages</div>}
       />
     );
   }
@@ -114,6 +114,7 @@ Most of the properties specified have a default value as described:
     timeStyle: {},
     dateStyle: {},
     sendButtonStyle: {},
-    sendButtonDisabledStyle: {}
+    sendButtonDisabledStyle: {},
+    renderChatEmpty: null
   }
 ```

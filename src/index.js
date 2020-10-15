@@ -180,7 +180,7 @@ export default class GiftedChat extends React.Component {
   }
 
   render() {
-    const { isTyping, isLoadingEarlier, messages, maxHeight, renderAccessory } = this.props
+    const { isTyping, isLoadingEarlier, messages, maxHeight, renderAccessory, renderChatEmpty } = this.props
     const chatHistoryStyle = Object.assign(styles.chatHistory, { maxHeight })
     return (
       <div id="chat-panel" style={styles.chatPanel} onScroll={this.handleScroll}>
@@ -197,6 +197,7 @@ export default class GiftedChat extends React.Component {
             </div>
           )}
           <div className="chat-messages">{this.renderMessages(messages)}</div>
+          {messages.length === 0 && renderChatEmpty && renderChatEmpty()}
           {isTyping && this.renderTyping()}
         </div>
         {renderAccessory != null ? renderAccessory() : null}
@@ -230,5 +231,6 @@ GiftedChat.defaultProps = {
   timeStyle: {},
   dateStyle: {},
   sendButtonStyle: {},
-  sendButtonDisabledStyle: {}
+  sendButtonDisabledStyle: {},
+  renderChatEmpty: null
 }
