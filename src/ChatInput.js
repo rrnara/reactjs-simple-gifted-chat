@@ -1,5 +1,4 @@
 import * as React from 'react'
-import TextareaAutosize from 'react-textarea-autosize'
 
 const styles = {
   chatInput: {
@@ -53,6 +52,7 @@ export default class ChatInput extends React.Component {
       alwaysShowSend,
       sendButtonText,
       placeholder,
+      renderTextInput,
       textInputStyle,
       text,
       onInputTextChanged,
@@ -65,24 +65,23 @@ export default class ChatInput extends React.Component {
     const inputStyle = Object.assign({}, styles.inputStyle, textInputStyle)
     const buttonDisabled = !alwaysShowSend && messageToUse.trim().length === 0
     const buttonStyle = Object.assign({}, styles.sendButton, sendButtonStyle, buttonDisabled ? sendButtonDisabledStyle : {})
+    const textInputProps = {
+      value: messageToUse,
+      onChange: event => {
+        if (text != null) {
+          onInputTextChanged(event.target.value)
+        } else {
+          this.setState({ message: event.target.value })
+        }
+      },
+      onKeyUp: this.onKeyUp,
+      placeholder,
+      maxLength: maxInputLength,
+      style: inputStyle
+    }
     return (
       <div className="chat-input" style={styles.chatInput}>
-        <TextareaAutosize
-          value={messageToUse}
-          onChange={event => {
-            if (text != null) {
-              onInputTextChanged(event.target.value)
-            } else {
-              this.setState({ message: event.target.value })
-            }
-          }}
-          onKeyUp={this.onKeyUp}
-          minRows={1}
-          maxRows={textInputStyle.maxRows || 5}
-          placeholder={placeholder}
-          maxLength={maxInputLength}
-          style={inputStyle}
-        />
+        {renderTextInput != null ? renderTextInput(textInputProps) : <textarea {...textInputProps} />}
         <button type="submit" style={buttonStyle} onClick={this.onSend} disabled={buttonDisabled}>
           {sendButtonText}
         </button>

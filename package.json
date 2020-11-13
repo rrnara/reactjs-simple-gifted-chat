@@ -28,7 +28,6 @@
     "moment-timezone": "^0.5.31",
     "react": "^16.13.1",
     "react-linkify": "^1.0.0-alpha",
-    "react-textarea-autosize": "^8.3.0",
     "uuid": "^8.3.1"
   },
   "devDependencies": {

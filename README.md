@@ -71,7 +71,11 @@ class Example extends React.Component {
         timeFormat="HH:mm"
         dateFormat="YYYY/MM/DD"
         maxInputLength="400"
-        textInputStyle={{ margin: 10, maxRows: 3 }}
+        renderTextInput={props => {
+          // By default GiftedChat uses textarea, override that here using react-textarea-autosize
+          return <TextareaAutosize {...props} minRows={1} maxRows={5}>
+        }}
+        textInputStyle={{ margin: 10 }}
         textStyle={{ fontSize: 15 }}
         imageStyle={{ width: 500 }}
         timeStyle={{ fontSize: 12 }}
@@ -98,6 +102,7 @@ Most of the properties specified have a default value as described:
     isTyping: false,
     alwaysShowSend: false,
     sendButtonText: 'SEND',
+    renderTextInput: null,
     textInputStyle: {},
     placeholder: 'Enter your message',
     renderAvatarOnTop: false,

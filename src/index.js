@@ -136,6 +136,7 @@ export default class GiftedChat extends React.Component {
       placeholder,
       text,
       onInputTextChanged,
+      renderTextInput,
       textInputStyle,
       sendButtonStyle,
       sendButtonDisabledStyle,
@@ -157,6 +158,7 @@ export default class GiftedChat extends React.Component {
         alwaysShowSend={alwaysShowSend}
         sendButtonText={sendButtonText}
         placeholder={placeholder}
+        renderTextInput={renderTextInput}
         textInputStyle={textInputStyle}
         text={text}
         onInputTextChanged={onInputTextChanged}
@@ -181,7 +183,7 @@ export default class GiftedChat extends React.Component {
 
   render() {
     const { isTyping, isLoadingEarlier, messages, maxHeight, renderAccessory, renderChatEmpty } = this.props
-    const chatHistoryStyle = Object.assign(styles.chatHistory, { maxHeight })
+    const chatHistoryStyle = Object.assign({ maxHeight }, styles.chatHistory)
     return (
       <div id="chat-panel" style={styles.chatPanel} onScroll={this.handleScroll}>
         <div
@@ -215,6 +217,7 @@ GiftedChat.defaultProps = {
   isTyping: false,
   alwaysShowSend: false,
   sendButtonText: 'SEND',
+  renderTextInput: null,
   textInputStyle: {},
   placeholder: 'Enter your message',
   renderAvatarOnTop: false,

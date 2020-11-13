@@ -195,11 +195,13 @@ export default class ChatBubble extends React.Component {
                 </audio>
               )}
               <Linkify properties={{ style: styles.a, target: '_blank' }}>
-                {textContent.map((text, i) => (
-                  <p key={`bubble_${message.id}_para_${i}`} style={textStyleToUse}>
-                    {text}
-                  </p>
-                ))}
+                {textContent.map((text, i) => {
+                  const key = `bubble_${message.id}_para_${i}`
+                  if (text.length === 0) {
+                    return <br key={key} />
+                  }
+                  return <p key={key} style={textStyleToUse}>{text}</p>
+                })}
               </Linkify>
               <p style={timeStyleToUse}>{messageDate.format(timeFormat)}</p>
             </div>
