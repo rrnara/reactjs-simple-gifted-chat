@@ -144,7 +144,8 @@ export default class GiftedChat extends React.Component {
       messageIdGenerator
     } = this.props
 
-    return hasInputField ? (
+    return hasInputField
+      ? (
       <ChatInput
         onSend={newText => {
           const message = {
@@ -166,7 +167,8 @@ export default class GiftedChat extends React.Component {
         sendButtonDisabledStyle={sendButtonDisabledStyle}
         maxInputLength={maxInputLength}
       />
-    ) : null
+        )
+      : null
   }
 
   renderTyping() {

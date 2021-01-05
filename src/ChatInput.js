@@ -82,7 +82,7 @@ export default class ChatInput extends React.Component {
     return (
       <div className="chat-input" style={styles.chatInput}>
         {renderTextInput != null ? renderTextInput(textInputProps) : <textarea {...textInputProps} />}
-        <button type="submit" style={buttonStyle} onClick={this.onSend} disabled={buttonDisabled}>
+        <button id="chat_input_send_button" type="submit" style={buttonStyle} onClick={this.onSend} disabled={buttonDisabled}>
           {sendButtonText}
         </button>
       </div>

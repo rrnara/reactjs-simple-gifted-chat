@@ -112,6 +112,7 @@ export default class ChatBubble extends React.Component {
     const wrapperStyle = Object.assign({}, styles.avatarWrapper, renderAvatarOnTop ? styles.avatarWrapperTop : {})
     return (
       <div
+        id={`user_avatar_${user._id}`}
         style={wrapperStyle}
         onClick={() => {
           if (onPressAvatar != null) {
@@ -119,11 +120,13 @@ export default class ChatBubble extends React.Component {
           }
         }}
       >
-        {user.avatar != null ? (
+        {user.avatar != null
+          ? (
           <img style={avatarStyle} src={user.avatar} alt={user.name} />
-        ) : (
+            )
+          : (
           <div style={avatarStyle}>{initials(user.name)}</div>
-        )}
+            )}
       </div>
     )
   }
@@ -171,16 +174,16 @@ export default class ChatBubble extends React.Component {
     const dateStyleToUse = Object.assign({}, styles.date, dateStyle)
     const textContent = message.text.split('\n')
     return (
-      <div>
+      <div id={`chat_row_wrapper_${message._id}`}>
         {displayDate && (
           <div style={styles.dateRow}>
             <p style={dateStyleToUse}>{messageDate.format(dateFormat)}</p>
           </div>
         )}
-        <div style={styles.chatbubbleRow}>
+        <div style={styles.chatbubbleRow} id={`chat_row_${message._id}`}>
           {!sentByMe && showAvatar ? this.renderAvatar(message.user, avatarSize, renderAvatarOnTop, onPressAvatar) : emptyAvatar}
           <div style={chatbubbleWrapperStyles}>
-            <div style={chatbubbleStyles}>
+            <div style={chatbubbleStyles} id={`chat_bubble_${message._id}`}>
               {message.image != null && <img src={message.image} style={imageStyleToUse} />}
               {message.video != null && (
                 <video controls="controls">
