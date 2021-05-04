@@ -2,6 +2,7 @@ import * as React from 'react'
 import Linkify from 'react-linkify'
 import initials from 'initials'
 import moment from 'moment-timezone'
+import { get } from 'lodash'
 
 function generateEmptyAvatarStyle(avatarSize) {
   return {
@@ -164,7 +165,10 @@ export default class ChatBubble extends React.Component {
     let showAvatar = showAvatarForEveryMessage || (showUserAvatar && sentByMe) || (showReceipientAvatar && !sentByMe)
     const emptyAvatar = showAvatar ? <div style={generateEmptyAvatarStyle(avatarSize)} /> : null
     if (showAvatar) {
-      const compareWith = renderAvatarOnTop ? previous : next
+      let compareWith = renderAvatarOnTop ? previous : next
+      if (compareWith != null && get(compareWith, 'message.text') == null) {
+        compareWith = null
+      }
       showAvatar = compareWith == null || compareWith.user._id !== message.user._id
     }
 
@@ -172,7 +176,14 @@ export default class ChatBubble extends React.Component {
     const imageStyleToUse = Object.assign({}, styles.image, imageStyle)
     const timeStyleToUse = Object.assign({}, styles.time, timeStyle)
     const dateStyleToUse = Object.assign({}, styles.date, dateStyle)
-    const textContent = message.text.split('\n')
+    const hasAnnouncement = message.announcement != null
+    let messageText = message.text
+    let ignoreText = false
+    if (hasAnnouncement && messageText == null) {
+      ignoreText = true
+      messageText = ''
+    }
+    const textContent = messageText.split('\n')
     return (
       <div id={`chat_row_wrapper_${message._id}`}>
         {displayDate && (
@@ -180,37 +191,44 @@ export default class ChatBubble extends React.Component {
             <p style={dateStyleToUse}>{messageDate.format(dateFormat)}</p>
           </div>
         )}
-        <div style={styles.chatbubbleRow} id={`chat_row_${message._id}`}>
-          {!sentByMe && showAvatar ? this.renderAvatar(message.user, avatarSize, renderAvatarOnTop, onPressAvatar) : emptyAvatar}
-          <div style={chatbubbleWrapperStyles}>
-            <div style={chatbubbleStyles} id={`chat_bubble_${message._id}`}>
-              {message.image != null && <img src={message.image} style={imageStyleToUse} />}
-              {message.video != null && (
-                <video controls="controls">
-                  Your browser does not support the &lt;video&gt; tag.
-                  <source src={message.video} />
-                </video>
-              )}
-              {message.audio != null && (
-                <audio controls="controls">
-                  Your browser does not support the &lt;audio&gt; tag.
-                  <source src={message.audio} />
-                </audio>
-              )}
-              <Linkify properties={{ style: styles.a, target: '_blank' }}>
-                {textContent.map((text, i) => {
-                  const key = `bubble_${message.id}_para_${i}`
-                  if (text.length === 0) {
-                    return <br key={key} />
-                  }
-                  return <p key={key} style={textStyleToUse}>{text}</p>
-                })}
-              </Linkify>
-              <p style={timeStyleToUse}>{messageDate.format(timeFormat)}</p>
-            </div>
+        {hasAnnouncement && (
+          <div style={styles.dateRow} id={`chat_announcement_${message._id}`}>
+            <p style={dateStyleToUse}>{message.announcement}</p>
           </div>
-          {sentByMe && showAvatar ? this.renderAvatar(message.user, avatarSize, renderAvatarOnTop, onPressAvatar) : emptyAvatar}
-        </div>
+        )}
+        {!ignoreText && (
+          <div style={styles.chatbubbleRow} id={`chat_row_${message._id}`}>
+            {!sentByMe && showAvatar ? this.renderAvatar(message.user, avatarSize, renderAvatarOnTop, onPressAvatar) : emptyAvatar}
+            <div style={chatbubbleWrapperStyles}>
+              <div style={chatbubbleStyles} id={`chat_bubble_${message._id}`}>
+                {message.image != null && <img src={message.image} style={imageStyleToUse} />}
+                {message.video != null && (
+                  <video controls="controls">
+                    Your browser does not support the &lt;video&gt; tag.
+                    <source src={message.video} />
+                  </video>
+                )}
+                {message.audio != null && (
+                  <audio controls="controls">
+                    Your browser does not support the &lt;audio&gt; tag.
+                    <source src={message.audio} />
+                  </audio>
+                )}
+                <Linkify properties={{ style: styles.a, target: '_blank' }}>
+                  {textContent.map((text, i) => {
+                    const key = `bubble_${message.id}_para_${i}`
+                    if (text.length === 0) {
+                      return <br key={key} />
+                    }
+                    return <p key={key} style={textStyleToUse}>{text}</p>
+                  })}
+                </Linkify>
+                <p style={timeStyleToUse}>{messageDate.format(timeFormat)}</p>
+              </div>
+            </div>
+            {sentByMe && showAvatar ? this.renderAvatar(message.user, avatarSize, renderAvatarOnTop, onPressAvatar) : emptyAvatar}
+          </div>
+        )}
       </div>
     )
   }

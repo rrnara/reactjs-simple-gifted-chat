@@ -123,3 +123,15 @@ Most of the properties specified have a default value as described:
     renderChatEmpty: null
   }
 ```
+
+## Message Content Hash
+
+```
+{
+  text: 'This is a message', // Can only be null when it is an announcement
+  announcement: 'Added User Abc',
+  video: 'url',
+  image: 'url',
+  audio: 'url',
+}
+```
