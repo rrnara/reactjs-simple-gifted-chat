@@ -128,8 +128,8 @@ Most of the properties specified have a default value as described:
 
 ```
 {
-  text: 'This is a message', // Can only be null when it is an announcement
-  announcement: 'Added User Abc',
+  text: 'This is a message', // Cannot be null
+  system: true/false, // when true, it displays like the Date
   video: 'url',
   image: 'url',
   audio: 'url',

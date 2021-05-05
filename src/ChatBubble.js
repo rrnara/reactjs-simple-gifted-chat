@@ -70,6 +70,12 @@ const styles = {
     objectFit: 'contain',
     width: 300
   },
+  systemMessageRow: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
   dateRow: {
     flex: 1,
     display: 'flex',
@@ -87,6 +93,9 @@ const styles = {
     fontSize: 15,
     fontWeight: '300',
     margin: 0
+  },
+  timeSystem: {
+    color: '#666666'
   }
 }
 
@@ -172,18 +181,13 @@ export default class ChatBubble extends React.Component {
       showAvatar = compareWith == null || compareWith.user._id !== message.user._id
     }
 
+    const isSystemMessage = message.system
     const textStyleToUse = Object.assign({}, styles.p, textStyle)
     const imageStyleToUse = Object.assign({}, styles.image, imageStyle)
-    const timeStyleToUse = Object.assign({}, styles.time, timeStyle)
+    const timeStyleToUse = Object.assign({}, styles.time, isSystemMessage ? styles.timeSystem : {}, timeStyle)
     const dateStyleToUse = Object.assign({}, styles.date, dateStyle)
-    const hasAnnouncement = message.announcement != null
-    let messageText = message.text
-    let ignoreText = false
-    if (hasAnnouncement && messageText == null) {
-      ignoreText = true
-      messageText = ''
-    }
-    const textContent = messageText.split('\n')
+    const textContent = message.text.split('\n')
+    const timeDisplay = <p style={timeStyleToUse}>{messageDate.format(timeFormat)}</p>
     return (
       <div id={`chat_row_wrapper_${message._id}`}>
         {displayDate && (
@@ -191,12 +195,19 @@ export default class ChatBubble extends React.Component {
             <p style={dateStyleToUse}>{messageDate.format(dateFormat)}</p>
           </div>
         )}
-        {hasAnnouncement && (
-          <div style={styles.dateRow} id={`chat_announcement_${message._id}`}>
-            <p style={dateStyleToUse}>{message.announcement}</p>
+        {isSystemMessage && (
+          <div style={styles.systemMessageRow} id={`chat_system_${message._id}`}>
+            {textContent.map((text, i) => {
+              const key = `system_${message.id}_para_${i}`
+              if (text.length === 0) {
+                return <br key={key} />
+              }
+              return <p key={key} style={dateStyleToUse}>{text}</p>
+            })}
+            {timeDisplay}
           </div>
         )}
-        {!ignoreText && (
+        {!isSystemMessage && (
           <div style={styles.chatbubbleRow} id={`chat_row_${message._id}`}>
             {!sentByMe && showAvatar ? this.renderAvatar(message.user, avatarSize, renderAvatarOnTop, onPressAvatar) : emptyAvatar}
             <div style={chatbubbleWrapperStyles}>
@@ -223,7 +234,7 @@ export default class ChatBubble extends React.Component {
                     return <p key={key} style={textStyleToUse}>{text}</p>
                   })}
                 </Linkify>
-                <p style={timeStyleToUse}>{messageDate.format(timeFormat)}</p>
+                {timeDisplay}
               </div>
             </div>
             {sentByMe && showAvatar ? this.renderAvatar(message.user, avatarSize, renderAvatarOnTop, onPressAvatar) : emptyAvatar}
