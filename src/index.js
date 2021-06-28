@@ -67,13 +67,15 @@ export default class GiftedChat extends React.Component {
       showReceipientAvatar,
       avatarSize,
       onPressAvatar,
+      onPressBubble,
       timezone,
       timeFormat,
       dateFormat,
       textStyle,
       imageStyle,
       timeStyle,
-      dateStyle
+      dateStyle,
+      tickStyle
     } = this.props
 
     const messageNodes = []
@@ -104,6 +106,7 @@ export default class GiftedChat extends React.Component {
           showReceipientAvatar={showReceipientAvatar}
           avatarSize={avatarSize}
           onPressAvatar={onPressAvatar}
+          onPressBubble={onPressBubble}
           timezone={timezone}
           timeFormat={timeFormat}
           dateFormat={dateFormat}
@@ -111,6 +114,7 @@ export default class GiftedChat extends React.Component {
           imageStyle={imageStyle}
           timeStyle={timeStyle}
           dateStyle={dateStyle}
+          tickStyle={tickStyle}
         />
       )
     }
@@ -225,6 +229,8 @@ GiftedChat.defaultProps = {
   renderAvatarOnTop: false,
   showAvatarForEveryMessage: false,
   showUserAvatar: false,
+  onPressAvatar: null,
+  onPressBubble: null,
   showReceipientAvatar: true,
   avatarSize: 50,
   messageIdGenerator: uuidv4,
@@ -235,6 +241,7 @@ GiftedChat.defaultProps = {
   imageStyle: {},
   timeStyle: {},
   dateStyle: {},
+  tickStyle: {},
   sendButtonStyle: {},
   sendButtonDisabledStyle: {},
   renderChatEmpty: null

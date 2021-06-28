@@ -4,6 +4,33 @@ import initials from 'initials'
 import moment from 'moment-timezone'
 import { get } from 'lodash'
 
+function Check() {
+  return (
+    <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M5 13L9 17L19 7" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  )
+}
+
+function DoubleCheck() {
+  return (
+    <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M1.5 12.5L5.57574 16.5757C5.81005 16.8101 6.18995 16.8101 6.42426 16.5757L9 14" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+      <path d="M16 7L12 11" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+      <path d="M7 12L11.5757 16.5757C11.8101 16.8101 12.1899 16.8101 12.4243 16.5757L22 7" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+    </svg>
+  )
+}
+
+function Clock() {
+  return (
+    <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17 13H12V8" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M12 22C16.9706 22 21 17.9706 21 13C21 8.02944 16.9706 4 12 4C7.02944 4 3 8.02944 3 13C3 17.9706 7.02944 22 12 22Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  )
+}
+
 function generateEmptyAvatarStyle(avatarSize) {
   return {
     width: avatarSize,
@@ -96,6 +123,10 @@ const styles = {
   },
   timeSystem: {
     color: '#666666'
+  },
+  tick: {
+    width: 15,
+    height: 15
   }
 }
 
@@ -153,13 +184,15 @@ export default class ChatBubble extends React.Component {
       showReceipientAvatar,
       avatarSize,
       onPressAvatar,
+      onPressBubble,
       timezone,
       timeFormat,
       dateFormat,
       textStyle,
       imageStyle,
       timeStyle,
-      dateStyle
+      dateStyle,
+      tickStyle
     } = this.props
     const sentByMe = message.user._id === user._id
     const chatbubbleStyles = Object.assign({}, styles.chatbubble, sentByMe ? {} : styles.recipientChatbubble)
@@ -184,10 +217,24 @@ export default class ChatBubble extends React.Component {
     const isSystemMessage = message.system
     const textStyleToUse = Object.assign({}, styles.p, textStyle)
     const imageStyleToUse = Object.assign({}, styles.image, imageStyle)
-    const timeStyleToUse = Object.assign({}, styles.time, isSystemMessage ? styles.timeSystem : {}, timeStyle)
+    const timeStyleToUse = Object.assign({}, styles.time, isSystemMessage ? styles.timeSystem : { flex: 1 }, timeStyle)
     const dateStyleToUse = Object.assign({}, styles.date, dateStyle)
+    const tickStyleToUse = Object.assign({}, styles.tick, tickStyle)
     const textContent = message.text.split('\n')
     const timeDisplay = <p style={timeStyleToUse}>{messageDate.format(timeFormat)}</p>
+    let Status = null
+    if (message.received === true) {
+      Status = DoubleCheck
+    } else if (message.sent === true) {
+      Status = Check
+    } else if (message.pending === true) {
+      Status = Clock
+    }
+    const onMessageClick = () => {
+      if (onPressBubble != null) {
+        onPressBubble(message)
+      }
+    }
     return (
       <div id={`chat_row_wrapper_${message._id}`}>
         {displayDate && (
@@ -208,7 +255,7 @@ export default class ChatBubble extends React.Component {
           </div>
         )}
         {!isSystemMessage && (
-          <div style={styles.chatbubbleRow} id={`chat_row_${message._id}`}>
+          <div style={styles.chatbubbleRow} id={`chat_row_${message._id}`} onClick={onMessageClick}>
             {!sentByMe && showAvatar ? this.renderAvatar(message.user, avatarSize, renderAvatarOnTop, onPressAvatar) : emptyAvatar}
             <div style={chatbubbleWrapperStyles}>
               <div style={chatbubbleStyles} id={`chat_bubble_${message._id}`}>
@@ -234,7 +281,14 @@ export default class ChatBubble extends React.Component {
                     return <p key={key} style={textStyleToUse}>{text}</p>
                   })}
                 </Linkify>
-                {timeDisplay}
+                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                  {timeDisplay}
+                  {Status != null && (
+                    <div style={tickStyleToUse}>
+                      <Status />
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
             {sentByMe && showAvatar ? this.renderAvatar(message.user, avatarSize, renderAvatarOnTop, onPressAvatar) : emptyAvatar}

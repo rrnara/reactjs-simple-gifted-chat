@@ -108,6 +108,8 @@ Most of the properties specified have a default value as described:
     renderAvatarOnTop: false,
     showAvatarForEveryMessage: false,
     showUserAvatar: false,
+    onPressAvatar: null,
+    onPressBubble: null,
     showReceipientAvatar: true,
     avatarSize: 50,
     messageIdGenerator: uuidv4,
@@ -118,6 +120,7 @@ Most of the properties specified have a default value as described:
     imageStyle: {},
     timeStyle: {},
     dateStyle: {},
+    tickStyle: {},
     sendButtonStyle: {},
     sendButtonDisabledStyle: {},
     renderChatEmpty: null
