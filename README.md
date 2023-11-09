@@ -13,7 +13,6 @@ Simple version of chat built to use same APIs as https://github.com/FaridSafi/re
 import GiftedChat from 'reactjs-simple-gifted-chat';
 
 class Example extends React.Component {
-
   state = {
     messages: [],
     isFetching: false
@@ -24,7 +23,7 @@ class Example extends React.Component {
       messages: [
         {
           _id: 1,
-          content: { text: 'Hello developer' },
+          text: 'Hello developer',
           createdAt: new Date(),
           user: {
             _id: 30,
@@ -37,8 +36,8 @@ class Example extends React.Component {
   }
 
   onSend(message) {
-    const messages = this.state.mesages.slice(0)
-    messages.splice(0, 0, { _id: 100, content: { text: message }, user: { _id: 1 }, displayTime: 'Now', createdAt: new Date() })
+    const messages = this.state.messages.slice(0)
+    messages.splice(0, 0, message)
     this.setState({ messages });
   }
 
@@ -73,7 +72,7 @@ class Example extends React.Component {
         maxInputLength="400"
         renderTextInput={props => {
           // By default GiftedChat uses textarea, override that here using react-textarea-autosize
-          return <TextareaAutosize {...props} minRows={1} maxRows={5}>
+          return <TextareaAutosize {...props} minRows={1} maxRows={5} />
         }}
         textInputStyle={{ margin: 10 }}
         textStyle={{ fontSize: 15 }}
@@ -86,7 +85,6 @@ class Example extends React.Component {
       />
     );
   }
-
 }
 ```
 
@@ -121,6 +119,7 @@ Most of the properties specified have a default value as described:
     timeStyle: {},
     dateStyle: {},
     tickStyle: {},
+    renderSendButton: null, // (props) => {} -- if just style is not enough and need a custom rendering
     sendButtonStyle: {},
     sendButtonDisabledStyle: {},
     renderChatEmpty: null

@@ -1,6 +1,6 @@
 {
   "name": "reactjs-simple-gifted-chat",
-  "version": "3.0.0",
+  "version": "3.0.2",
   "description": "Simple version of gifted chat UI for Web ReactJS",
   "main": "dist/index.js",
   "scripts": {

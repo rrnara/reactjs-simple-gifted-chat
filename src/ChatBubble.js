@@ -110,7 +110,6 @@ const styles = {
     justifyContent: 'center'
   },
   date: {
-    color: '#000000',
     fontSize: 17,
     fontWeight: '500',
     margin: 0
@@ -245,7 +244,7 @@ export default class ChatBubble extends React.Component {
         {isSystemMessage && (
           <div style={styles.systemMessageRow} id={`chat_system_${message._id}`}>
             {textContent.map((text, i) => {
-              const key = `system_${message.id}_para_${i}`
+              const key = `system_${message._id}_para_${i}`
               if (text.length === 0) {
                 return <br key={key} />
               }
@@ -274,7 +273,7 @@ export default class ChatBubble extends React.Component {
                 )}
                 <Linkify properties={{ style: styles.a, target: '_blank' }}>
                   {textContent.map((text, i) => {
-                    const key = `bubble_${message.id}_para_${i}`
+                    const key = `bubble_${message._id}_para_${i}`
                     if (text.length === 0) {
                       return <br key={key} />
                     }

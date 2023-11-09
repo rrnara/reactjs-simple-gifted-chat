@@ -145,7 +145,8 @@ export default class GiftedChat extends React.Component {
       sendButtonStyle,
       sendButtonDisabledStyle,
       maxInputLength,
-      messageIdGenerator
+      messageIdGenerator,
+      renderSendButton
     } = this.props
 
     return hasInputField
@@ -167,6 +168,7 @@ export default class GiftedChat extends React.Component {
         textInputStyle={textInputStyle}
         text={text}
         onInputTextChanged={onInputTextChanged}
+        renderSendButton={renderSendButton}
         sendButtonStyle={sendButtonStyle}
         sendButtonDisabledStyle={sendButtonDisabledStyle}
         maxInputLength={maxInputLength}
@@ -242,6 +244,7 @@ GiftedChat.defaultProps = {
   timeStyle: {},
   dateStyle: {},
   tickStyle: {},
+  renderSendButton: null,
   sendButtonStyle: {},
   sendButtonDisabledStyle: {},
   renderChatEmpty: null

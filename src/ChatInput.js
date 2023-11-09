@@ -56,6 +56,7 @@ export default class ChatInput extends React.Component {
       textInputStyle,
       text,
       onInputTextChanged,
+      renderSendButton,
       sendButtonStyle,
       sendButtonDisabledStyle,
       maxInputLength
@@ -79,12 +80,22 @@ export default class ChatInput extends React.Component {
       maxLength: maxInputLength,
       style: inputStyle
     }
+    const buttonProps = {
+      id: 'chat_input_send_button',
+      type: 'submit',
+      onClick: this.onSend,
+      disabled: buttonDisabled
+    }
     return (
       <div className="chat-input" style={styles.chatInput}>
         {renderTextInput != null ? renderTextInput(textInputProps) : <textarea {...textInputProps} />}
-        <button id="chat_input_send_button" type="submit" style={buttonStyle} onClick={this.onSend} disabled={buttonDisabled}>
-          {sendButtonText}
-        </button>
+        {renderSendButton != null
+          ? renderSendButton(buttonProps)
+          : (
+          <button {...buttonProps} style={buttonStyle}>
+            {sendButtonText}
+          </button>
+            )}
       </div>
     )
   }
